@@ -22,7 +22,7 @@ class ProductController
         $product->setWeight($_POST['weight']);
         $product->setCategory($_POST['category']);
         $product->setStock($_POST['stock']);
-        $product->setCreatedAt(date('Y-m-d H:i:s'));
+        $product->setCreatedAt(date('Y-m-d'));
         $product->setLastSale($_POST['last_sale']);
 
         Product::save($product);
@@ -41,13 +41,15 @@ class ProductController
     {
         $id = $_GET['productId'];
         $product = Product::searchById($id);
+
         require_once('Views/products/updateshow.php');
     }
 
     function update()
     {
         $product = new Product();
-
+        
+        $product->setId($_POST['id']);
         $product->setName($_POST['name']);
         $product->setReference($_POST['reference']);
         $product->setPrice($_POST['price']);

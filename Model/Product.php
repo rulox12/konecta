@@ -164,15 +164,17 @@ class Product
         $db = Db::getConnect();
 
         try {
-            $insert = $db->prepare('INSERT INTO product VALUES (NULL, :name,:reference,:price,:weight,:category,:stock,null,null)');
+            $insert = $db->prepare('INSERT INTO product VALUES (NULL, :name,:reference,:price,:weight,:category,:stock,:created_at,:last_sale)');
             $insert->bindValue('name', $product->getName());
             $insert->bindValue('reference', $product->getReference());
             $insert->bindValue('price', $product->getPrice());
             $insert->bindValue('weight', $product->getWeight());
             $insert->bindValue('category', $product->getCategory());
             $insert->bindValue('stock', $product->getStock());
+            $insert->bindValue('created_at', $product->getCreatedAt());
+            $insert->bindValue('last_sale', $product->getLastSale());
             $insert->execute();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
     }
@@ -187,12 +189,15 @@ class Product
         foreach ($select->fetchAll() as $productSave) {
             $product = new Product();
 
+            $product->setId($productSave['id']);
             $product->setName($productSave['name']);
             $product->setReference($productSave['reference']);
             $product->setPrice($productSave['price']);
             $product->setWeight($productSave['weight']);
             $product->setCategory($productSave['category']);
             $product->setStock($productSave['stock']);
+            $product->setCreatedAt($productSave['created_at']);
+            $product->setLastSale($productSave['last_sale']);
 
             $productList[] = $product;
         }
@@ -210,6 +215,7 @@ class Product
 
         $product = new Product();
 
+        $product->setId($productDb['id']);
         $product->setName($productDb['name']);
         $product->setReference($productDb['reference']);
         $product->setPrice($productDb['price']);
@@ -222,9 +228,10 @@ class Product
 
     }
 
-    public static function update($product)
+    public static function update(Product $product)
     {
         $db = Db::getConnect();
+
         $update = $db->prepare('UPDATE product SET name=:name, reference=:reference, price=:price , weight=:weight, category=:category, stock=:stock WHERE id=:id');
         $update->bindValue('name', $product->getName());
         $update->bindValue('reference', $product->getReference());

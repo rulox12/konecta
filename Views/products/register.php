@@ -1,5 +1,6 @@
 <div class="container">
     <center><h2>Registro de Producto</h2></center>
+
     <form action="?controller=product&&action=save" method="POST">
         <div class="form-group">
             <label for="text">Nombre:</label>
