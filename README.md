@@ -34,3 +34,4 @@ CREATE TABLE product
 
 )ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 ```
+In the conection file you can find the credentials to connect to the database
